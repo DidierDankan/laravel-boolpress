@@ -14,10 +14,6 @@ use Illuminate\support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('guest.welcome');
-});
-
 Auth::routes();
 
 //Route::get('/admin', 'HomeController@index')->name('home');
@@ -33,3 +29,8 @@ Route::prefix('admin')
             //route resource posts
             Route::resource('/posts', 'PostController');
         });
+
+// front office
+Route::get('{any?}', function(){
+    return view('guest.home');
+})->where('any', '.*');
