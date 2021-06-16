@@ -29,7 +29,9 @@
                             {{ $post->title }}
                         </td>
                         <td>
-                            Show
+                            <a class="btn btn-primary" href=" {{ route('admin.posts.show', $post->id) }} ">
+                                Show
+                            </a>
                         </td>
                         <td>
                             Edit
