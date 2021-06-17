@@ -3,7 +3,19 @@
 @section('content')
 
     <div class="container">
-        <h1>OUR POSTS</h1>
+        <div class="mb-3">
+            <h1>OUR POSTS</h1>
+    
+            <a class="btn btn-warning" href="{{ route('admin.posts.create') }}">Create Post</a>
+        </div>
+
+        <div class="deleted">
+            @if(session('deleted')) 
+                <div class="alert alert-success">
+                    <strong> {{ session('deleted') }} </strong>
+                </div>
+            @endif
+        </div>
 
         <table class="table">
             <thead>
@@ -34,10 +46,17 @@
                             </a>
                         </td>
                         <td>
-                            Edit
+                            <a class="btn btn-warning" href=" {{ route('admin.posts.edit', $post->id) }} ">
+                                Edit
+                            </a>
                         </td>
                         <td>
-                            Delete
+                            <form class="deleted" action=" {{ route('admin.posts.destroy', $post->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+    
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

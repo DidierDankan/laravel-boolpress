@@ -3,7 +3,10 @@
 @section('content')
 
     <div class="container">
-        <h2>{{ $post->title }}</h2>
+        <div class="mb-3">
+            <h2>{{ $post->title }}</h2>
+            <a href=" {{ route('admin.posts.index') }} "><-- Go back to Post</a>
+        </div>
         <div class="mb-5">
             <a class="btn btn-warning" href="{{ route('admin.posts.edit', $post->id) }}"> Edit Post</a>
         </div>

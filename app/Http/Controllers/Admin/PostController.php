@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use App\Post;
 
 class PostController extends Controller
@@ -29,6 +31,7 @@ class PostController extends Controller
     public function create()
     {
         //
+        return view('admin.posts.create');
     }
 
     /**
@@ -39,7 +42,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //validation 
+        $request->validate([
+            'title' => 'required|max:150|unique:posts',
+           'content' => 'required'
+        ]);
+
+        //get the info to create a room
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($data['title'], '-');
+
+        //crea stanza
+        $new_post = new Post();
+
+        //fill the data/ in Model fa il $fillable
+        $new_post->fill($data);
+
+        //save in db
+        $new_post->save();
+
+        //redirezziona la info a show
+        return redirect()->route('admin.posts.show', $new_post->id);
     }
 
     /**
@@ -69,6 +94,13 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find($id);
+
+        if(! $post) {
+            abort(404);
+        }
+
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -81,6 +113,27 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'title' => [
+                'required',
+                'max:150',
+                Rule::unique('posts')->ignore($id)
+            ],
+            'content' => 'required'
+        ]);
+
+        $data = $request->all();
+
+        $post = Post::find($id);
+
+        //gen Slug
+        if($data['title'] != $post->title) {
+            $data['slug'] = Str::slug($data['title'], '-');
+        };
+
+        $post->update($data);
+
+        return redirect()->route('admin.posts.show', $post->id);
     }
 
     /**
@@ -92,5 +145,10 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::find($id);
+
+        $post->delete();
+
+        return redirect()->route('admin.posts.index')->with('deleted', $post->title . ' was deleted.');
     }
 }
