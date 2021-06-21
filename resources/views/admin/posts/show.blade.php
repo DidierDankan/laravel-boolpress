@@ -7,6 +7,8 @@
             <h2>{{ $post->title }}</h2>
             <a href=" {{ route('admin.posts.index') }} "><-- Go back to Post</a>
         </div>
+
+        <h3>Category: {{ $posts->category->name }} </h3>
         <div class="mb-5">
             <a class="btn btn-warning" href="{{ route('admin.posts.edit', $post->id) }}"> Edit Post</a>
         </div>
