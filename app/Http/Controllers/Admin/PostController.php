@@ -100,12 +100,13 @@ class PostController extends Controller
     {
         //
         $post = Post::find($id);
+        $categories = Category::all();
 
         if(! $post) {
             abort(404);
         }
 
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post','categories'));
     }
 
     /**
@@ -124,7 +125,8 @@ class PostController extends Controller
                 'max:150',
                 Rule::unique('posts')->ignore($id)
             ],
-            'content' => 'required'
+            'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
 
         $data = $request->all();
