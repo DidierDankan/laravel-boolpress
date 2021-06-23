@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use App\Category;
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -35,8 +36,9 @@ class PostController extends Controller
         //
 
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.create', compact('categories'));
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -52,6 +54,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:150|unique:posts',
             'category_id' => 'nullable|exists:categories,id',
+            'tags' =>'nullable|exists:tags,id',
            'content' => 'required'
         ]);
 
@@ -68,6 +71,11 @@ class PostController extends Controller
 
         //save in db
         $new_post->save();
+
+        //aggiunge nuove records nella tabella pivot
+        if(array_key_exists('tags', $data)) {
+            $new_post->tags()->attach($data['tags']);
+        }
 
         //redirezziona la info a show
         return redirect()->route('admin.posts.show', $new_post->id);
@@ -102,12 +110,13 @@ class PostController extends Controller
         //
         $post = Post::find($id);
         $categories = Category::all();
+        $tags = Tag::all();
 
         if(! $post) {
             abort(404);
         }
 
-        return view('admin.posts.edit', compact('post','categories'));
+        return view('admin.posts.edit', compact('post','categories', 'tags'));
     }
 
     /**
@@ -127,7 +136,8 @@ class PostController extends Controller
                 Rule::unique('posts')->ignore($id)
             ],
             'content' => 'required',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id',
         ]);
 
         $data = $request->all();
@@ -140,6 +150,12 @@ class PostController extends Controller
         };
 
         $post->update($data);
+
+        if(array_key_exists('tags', $data)) {
+            $post->tags()->sync($data['tags']); // aggiunge o rimuove quelle gia esitente
+        }else {
+            $post->tags()->detach(); //rimuove tutte le reccord
+        }
 
         return redirect()->route('admin.posts.show', $post->id);
     }
@@ -156,6 +172,8 @@ class PostController extends Controller
         $post = Post::find($id);
 
         $post->delete();
+
+        $post->tags()->detach();
 
         return redirect()->route('admin.posts.index')->with('deleted', $post->title . ' was deleted.');
     }

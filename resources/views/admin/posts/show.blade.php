@@ -20,6 +20,14 @@
             {{ $post->content }}
         </p>
 
+        @if (count($post->tags) > 0)
+            @foreach ($post->tags as $tag)
+                <span class="badge badge-warning">
+                    {{ $tag->name }}
+                </span>
+            @endforeach
+        @endif
+
     </div>
     
 @endsection
