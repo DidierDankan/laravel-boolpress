@@ -16,11 +16,19 @@ class Post extends Model
     ];
 
     /**
-     * definire relazione categories
+     * relazione fra tabelle
      * posts->categories
      */
 
      public function category() {
          return $this->belongsTo('App\Category');
      }
+
+     /**
+      * relazione fra tabelle
+      * Tag ->Post
+      */
+      public function Tags() {
+          return $this->belongsToMany('App\Tag');
+      }
 }
