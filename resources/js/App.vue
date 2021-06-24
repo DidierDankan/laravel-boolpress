@@ -12,6 +12,29 @@
                     <div>{{ formatDate(post.created_at) }}</div>
                     <a href="#">Read more</a>
                 </article>
+
+                <section class="navigation">
+                    <button
+                        v-show="pages.current > 1"
+                        @click="getPosts(pages.current - 1)"
+                    >
+                        prev
+                    </button>
+                    <button
+                        v-for="i in pages.last"
+                        :key="`page${i}`"
+                        @click="getPosts(i)"
+                        :class="{ 'active-page': i == pages.current }"
+                    >
+                        {{ i }}
+                    </button>
+                    <button
+                        v-show="pages.current < pages.last"
+                        @click="getPosts(pages.current + 1)"
+                    >
+                        next
+                    </button>
+                </section>
             </div>
         </main>
     </div>
@@ -23,19 +46,24 @@ export default {
     name: "App",
     data() {
         return {
-            posts: []
+            posts: [],
+            pages: []
         };
     },
     created() {
         this.getPosts();
     },
     methods: {
-        getPosts() {
+        getPosts(page = 1) {
             axios
-                .get("http://127.0.0.1:8000/api/posts")
+                .get(`http://127.0.0.1:8000/api/posts?page=${page}`)
                 .then(res => {
                     // console.log(res.data.posts);
-                    this.posts = res.data.posts;
+                    this.posts = res.data.posts.data;
+                    this.pages = {
+                        current: res.data.posts.current_page,
+                        last: res.data.posts.last_page
+                    };
                 })
                 .catch(err => {
                     console.log(err);
@@ -66,5 +94,11 @@ export default {
 
 body {
     font-family: sans-serif;
+}
+
+.navigation {
+    .active-page {
+        background: orange;
+    }
 }
 </style>

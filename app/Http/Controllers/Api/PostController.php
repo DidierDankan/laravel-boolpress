@@ -10,7 +10,9 @@ class PostController extends Controller
 {
     //getting posts from db
     public function index() {
-        $posts = Post::all();
+        // $posts = Post::all();
+
+        $posts = Post::paginate(2);
 
         return response()->json(compact('posts'));
     }

@@ -1929,12 +1929,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
   data: function data() {
     return {
-      posts: []
+      posts: [],
+      pages: []
     };
   },
   created: function created() {
@@ -1944,9 +1968,14 @@ __webpack_require__.r(__webpack_exports__);
     getPosts: function getPosts() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://127.0.0.1:8000/api/posts").then(function (res) {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://127.0.0.1:8000/api/posts?page=".concat(page)).then(function (res) {
         // console.log(res.data.posts);
-        _this.posts = res.data.posts;
+        _this.posts = res.data.posts.data;
+        _this.pages = {
+          current: res.data.posts.current_page,
+          last: res.data.posts.last_page
+        };
       })["catch"](function (err) {
         console.log(err);
       });
@@ -6426,7 +6455,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, ".container {\n  width: 1170px;\n  margin: 0 auto;\n}\nbody {\n  font-family: sans-serif;\n}", ""]);
+exports.push([module.i, ".container {\n  width: 1170px;\n  margin: 0 auto;\n}\nbody {\n  font-family: sans-serif;\n}\n.navigation .active-page {\n  background: orange;\n}", ""]);
 
 // exports
 
@@ -38296,7 +38325,76 @@ var render = function() {
               _vm._v(" "),
               _c("a", { attrs: { href: "#" } }, [_vm._v("Read more")])
             ])
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "section",
+            { staticClass: "navigation" },
+            [
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.pages.current > 1,
+                      expression: "pages.current > 1"
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.getPosts(_vm.pages.current - 1)
+                    }
+                  }
+                },
+                [_vm._v("\n                    prev\n                ")]
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.pages.last, function(i) {
+                return _c(
+                  "button",
+                  {
+                    key: "page" + i,
+                    class: { "active-page": i == _vm.pages.current },
+                    on: {
+                      click: function($event) {
+                        return _vm.getPosts(i)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(i) +
+                        "\n                "
+                    )
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.pages.current < _vm.pages.last,
+                      expression: "pages.current < pages.last"
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.getPosts(_vm.pages.current + 1)
+                    }
+                  }
+                },
+                [_vm._v("\n                    next\n                ")]
+              )
+            ],
+            2
+          )
         ],
         2
       )

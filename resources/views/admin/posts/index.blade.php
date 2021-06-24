@@ -29,6 +29,9 @@
                     <th>
                         Category
                     </th>
+                    <th>
+                        Posted at
+                    </th>
                     <th colspan = "3">
                         Action
                     </th>
@@ -47,6 +50,12 @@
                             @if ($post->category)     
                                 {{ $post->category->name }}
                             @endif
+                        </td>
+                        <td>
+                           <p>
+                            {{ $post->created_at->format('d/m/y') }}
+                            </p>
+                            {{ $post->created_at->diffForHumans() }}
                         </td>
                         <td>
                             <a class="btn btn-primary" href=" {{ route('admin.posts.show', $post->id) }} ">
