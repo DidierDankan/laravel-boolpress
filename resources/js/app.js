@@ -9,9 +9,9 @@ require("./bootstrap");
 window.Vue = require("vue");
 
 //INIT VUE MAIN ROOM
-import App from "./components/App.vue";
+import App from "./App.vue";
 
-const $root = new Vue({
+const root = new Vue({
     el: "#root",
     render: h => h(App)
 });

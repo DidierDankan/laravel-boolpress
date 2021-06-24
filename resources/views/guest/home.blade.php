@@ -11,17 +11,12 @@
         
     </head>
     <body>
-        <div class="container">
-            <h1>
-                My HOMEPAGE!!
-            </h1>
-
-            <div id="root">
-
-            </div>
-
-            {{-- JS --}}
-            <script src="{{ asset('js/admin.js') }}"></script>
+        
+        <div id="root">
+            
         </div>
+
+        {{-- JS --}}
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
