@@ -1,6 +1,15 @@
 <template>
     <div class="container">
-        for now is empty
+        <h2>
+            {{ postDetail.title }}
+        </h2>
+        <span v-show="postDetail">
+            {{ postDetail.category.name }}
+        </span>
+
+        <p>
+            {{ postDetail.content }}
+        </p>
     </div>
 </template>
 
@@ -19,13 +28,13 @@ export default {
     },
     methods: {
         getPostDetail() {
-            console.log("api here");
             axios
                 .get(
                     `http://127.0.0.1:8000/api/posts/${this.$route.params.slug}`
                 )
                 .then(res => {
-                    this.postDetail = res.data.data;
+                    this.postDetail = res.data;
+                    console.log(this.postDetail);
                 })
                 .catch(err => {
                     console.log(err);

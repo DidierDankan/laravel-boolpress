@@ -2152,6 +2152,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PostDetail",
@@ -2167,9 +2176,9 @@ __webpack_require__.r(__webpack_exports__);
     getPostDetail: function getPostDetail() {
       var _this = this;
 
-      console.log("api here");
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://127.0.0.1:8000/api/posts/".concat(this.$route.params.slug)).then(function (res) {
-        _this.postDetail = res.data.data;
+        _this.postDetail = res.data;
+        console.log(_this.postDetail);
       })["catch"](function (err) {
         console.log(err);
       });
@@ -38770,7 +38779,24 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._v("\n    for now is empty\n")
+    _c("h2", [_vm._v("\n        " + _vm._s(_vm.postDetail.title) + "\n    ")]),
+    _vm._v(" "),
+    _c(
+      "span",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.postDetail,
+            expression: "postDetail"
+          }
+        ]
+      },
+      [_vm._v("\n        " + _vm._s(_vm.postDetail.category.name) + "\n    ")]
+    ),
+    _vm._v(" "),
+    _c("p", [_vm._v("\n        " + _vm._s(_vm.postDetail.content) + "\n    ")])
   ])
 }
 var staticRenderFns = []
