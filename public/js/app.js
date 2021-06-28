@@ -2161,6 +2161,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PostDetail",
@@ -38778,26 +38786,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("h2", [_vm._v("\n        " + _vm._s(_vm.postDetail.title) + "\n    ")]),
-    _vm._v(" "),
-    _c(
-      "span",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.postDetail,
-            expression: "postDetail"
-          }
-        ]
-      },
-      [_vm._v("\n        " + _vm._s(_vm.postDetail.category.name) + "\n    ")]
-    ),
-    _vm._v(" "),
-    _c("p", [_vm._v("\n        " + _vm._s(_vm.postDetail.content) + "\n    ")])
-  ])
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("h2", [
+        _vm._v("\n        " + _vm._s(_vm.postDetail.title) + "\n    ")
+      ]),
+      _vm._v(" "),
+      _vm.postDetail.category !== undefined && _vm.postDetail.category !== null
+        ? _c("span", [
+            _vm._v(
+              "\n        " + _vm._s(_vm.postDetail.category.name) + "\n    "
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._l(_vm.postDetail.tags, function(tag) {
+        return _c("span", { key: "tag-" + tag.id }, [
+          _vm._v("\n        " + _vm._s(tag.name) + "\n    ")
+        ])
+      }),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("\n        " + _vm._s(_vm.postDetail.content) + "\n    ")
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

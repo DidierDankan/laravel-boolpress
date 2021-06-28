@@ -3,8 +3,16 @@
         <h2>
             {{ postDetail.title }}
         </h2>
-        <span v-show="postDetail">
+        <span
+            v-if="
+                postDetail.category !== undefined &&
+                    postDetail.category !== null
+            "
+        >
             {{ postDetail.category.name }}
+        </span>
+        <span v-for="tag in postDetail.tags" :key="`tag-${tag.id}`">
+            {{ tag.name }}
         </span>
 
         <p>
