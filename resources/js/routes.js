@@ -36,7 +36,7 @@ const router = new VueRouter({
         },
         {
             path: "*",
-            component: NotFound
+            component: NotFound // questa è la route per il 404 not found
         }
     ]
 });

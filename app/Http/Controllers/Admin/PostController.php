@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use App\Category;
 use App\Post;
 use App\Tag;
@@ -54,12 +55,20 @@ class PostController extends Controller
             'title' => 'required|max:150|unique:posts',
             'category_id' => 'nullable|exists:categories,id',
             'tags' =>'nullable|exists:tags,id',
-           'content' => 'required'
+           'content' => 'required',
+           'cover' => 'nullable|mimes:jpg,bmp,png,jpeg,gif,svg'
         ]);
+        //mimes:jpg,bmp,png,jpeg,gif,svg
 
         //get the info to create a room
         $data = $request->all();
 
+        
+        //salvataggio della cover nella tabella
+        if(array_key_exists('cover', $data)) {
+            $data['cover'] = Storage::put('posts-covers', $data['cover']);
+        }
+        
         $data['slug'] = Str::slug($data['title'], '-');
 
         //crea stanza

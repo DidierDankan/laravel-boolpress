@@ -22,6 +22,7 @@ class PostController extends Controller
     public function show($slug) {
 
         $post = Post::where('slug', $slug)->with(['category', 'tags'])->first();
+        // questo with sono le tabelle relazionate dentro a model Post
 
         return response()->json($post);
     }

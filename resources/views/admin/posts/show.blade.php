@@ -16,9 +16,17 @@
             <a class="btn btn-warning" href="{{ route('admin.posts.edit', $post->id) }}"> Edit Post</a>
         </div>
 
-        <p>
-            {{ $post->content }}
-        </p>
+        <div class="mb-3 row">
+            @if ($post->cover)  
+                <div class="col-md-6">
+                    <img class="img-fluid" src="{{ asset('storage/' . $post->cover) }}" alt=" {{ $post->title }} ">
+                </div>
+            @endif
+            <div class="{{($post->cover == null) ? 'col' : 'col-md-6'}}">
+                {{ $post->content }}
+            </div>
+            
+        </div>
 
         @if (count($post->tags) > 0)
             @foreach ($post->tags as $tag)

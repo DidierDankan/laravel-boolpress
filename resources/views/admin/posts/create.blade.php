@@ -4,7 +4,7 @@
     <div class="container">
         <h2>Creat a new Post</h2>
         <a href=" {{ route('admin.posts.index') }} "><-- Go back to Post</a>
-        <form action=" {{ route('admin.posts.store') }}" method="POST">
+        <form action=" {{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="mb-3">
@@ -25,7 +25,7 @@
                 <textarea class="form-control @error('content') is-invalid @enderror" 
                 name="content" 
                 id="content" 
-                value=" {{ old('content') }}"></textarea>
+                >{{ old('content') }}</textarea>
                 @error('content')
                     <div class="feedback">
                         {{$message}}
@@ -66,6 +66,19 @@
                     </span>
                 @endforeach
                 @error('tags')
+                    <div class="feedback">
+                        {{$message}}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="cover" class="form-label">Post cover:</label>
+                <input type="file" class="form-control @error('cover') is-invalid @enderror" 
+                name="cover" 
+                id="cover" 
+                >
+                @error('cover')
                     <div class="feedback">
                         {{$message}}
                     </div>

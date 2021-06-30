@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 'public'),
+    //possiamo cambiare questo local per le option sotto public o s3 una volta cambiato usiamo php artisan storage:link
 
     /*
     |--------------------------------------------------------------------------
