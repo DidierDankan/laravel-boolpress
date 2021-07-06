@@ -2169,6 +2169,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PostDetail",
@@ -38810,7 +38816,13 @@ var render = function() {
       _vm._v(" "),
       _c("p", [
         _vm._v("\n        " + _vm._s(_vm.postDetail.content) + "\n    ")
-      ])
+      ]),
+      _vm._v(" "),
+      _vm.postDetail.cover
+        ? _c("img", {
+            attrs: { src: _vm.postDetail.cover, alt: _vm.postDetail.title }
+          })
+        : _vm._e()
     ],
     2
   )
@@ -54816,7 +54828,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: "post-detail"
   }, {
     path: "*",
-    component: _pages_NotFound_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _pages_NotFound_vue__WEBPACK_IMPORTED_MODULE_6__["default"] // questa è la route per il 404 not found
+
   }]
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);

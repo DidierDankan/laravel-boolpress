@@ -66,6 +66,7 @@ class PostController extends Controller
         
         //salvataggio della cover nella tabella
         if(array_key_exists('cover', $data)) {
+            //posts-covers è il nome della cartella creata dentro a storage
             $data['cover'] = Storage::put('posts-covers', $data['cover']);
         }
         
@@ -146,16 +147,28 @@ class PostController extends Controller
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id',
+            'cover' => 'nullable|mimes:jpg,bmp,png,jpeg,gif,svg',
         ]);
 
         $data = $request->all();
 
         $post = Post::find($id);
 
+        if(array_key_exists('cover', $data)) {
+            if($post->cover) {
+                //questo per delete la img del post precedente, se non lo cambia ma la img continua qui storata(morta)
+                Storage::delete($post->cover);
+            }
+
+            $data['cover'] = Storage::put('posts-covers', $data['cover']);
+            //$data perche il request sono il datti passati
+        }
+
         //gen Slug
         if($data['title'] != $post->title) {
             $data['slug'] = Str::slug($data['title'], '-');
         };
+
 
         $post->update($data);
 
@@ -176,11 +189,17 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
         $post = Post::find($id);
 
+        if($post->cover){
+            Storage::delete($post->cover);
+        }
+
+        //deleted post
         $post->delete();
 
+        //polizia orfana della tabela pivot
         $post->tags()->detach();
 
         return redirect()->route('admin.posts.index')->with('deleted', $post->title . ' was deleted.');

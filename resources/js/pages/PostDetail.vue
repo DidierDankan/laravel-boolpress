@@ -18,6 +18,12 @@
         <p>
             {{ postDetail.content }}
         </p>
+
+        <img
+            v-if="postDetail.cover"
+            :src="postDetail.cover"
+            :alt="postDetail.title"
+        />
     </div>
 </template>
 

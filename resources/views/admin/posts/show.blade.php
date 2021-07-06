@@ -24,8 +24,7 @@
             @endif
             <div class="{{($post->cover == null) ? 'col' : 'col-md-6'}}">
                 {{ $post->content }}
-            </div>
-            
+            </div>     
         </div>
 
         @if (count($post->tags) > 0)

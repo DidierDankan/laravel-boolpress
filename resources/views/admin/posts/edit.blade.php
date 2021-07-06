@@ -3,10 +3,12 @@
 @section('content')
     <div class="container">
         <div class="mb-3">
+            <span>
+                <a href=" {{ route('admin.posts.index') }} "><-- Go back to Post</a>
+            </span>
             <h2>Edit Post</h2>
-            <a href=" {{ route('admin.posts.index') }} "><-- Go back to Post</a>
         </div>
-        <form class="form-" action=" {{ route('admin.posts.update', $post->id) }}" method="POST">
+        <form class="form-" action=" {{ route('admin.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="mb-3">
@@ -19,7 +21,7 @@
 
             <div class="mb-3">
                 <label for="content" class="form-label">Content:</label>
-                <textarea class="form-control" name="content" id="content">{{ old('content', $post->content) }}"</textarea>
+                <textarea class="form-control" name="content" id="content">{{ old('content', $post->content) }}</textarea>
                 @error('content')
                     {{$message}}
                 @enderror
@@ -63,6 +65,24 @@
                     </span>
                 @endforeach
                 @error('tags')
+                    <div class="feedback">
+                        {{$message}}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <div>
+                    <label for="cover" class="form-label">Post cover:</label>
+                </div>
+                @if ($post->cover)      
+                    <img width="200" class="mb-2" src=" {{ asset('storage/' . $post->cover) }} " alt=" {{ $post->title }} ">
+                @endif
+
+                <input type="file" class="form-control @error('cover') is-invalid @enderror" 
+                name="cover" 
+                id="cover" >
+                @error('cover')
                     <div class="feedback">
                         {{$message}}
                     </div>
